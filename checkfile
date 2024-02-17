@@ -1,0 +1,36 @@
+import pandas as pd
+
+# File paths
+file_a_path = r'C:\Users\steve\Desktop\A.xlsx'
+file_b_path = r'C:\Users\steve\Desktop\B.xlsx'
+
+# Read Excel files into Pandas DataFrames
+df_a = pd.read_excel(file_a_path)
+df_b = pd.read_excel(file_b_path)
+
+# Assuming 'ID' is the common identifier column
+common_id_column = 'ID'
+
+# Merge DataFrames on the common identifier column
+merged_df = pd.merge(df_a, df_b, on=common_id_column, suffixes=('_A', '_B'), how='outer')
+
+# Iterate through rows and compare fields
+for index, row in merged_df.iterrows():
+    id_value = row[common_id_column]
+    
+    # Iterate through columns
+    for column in df_a.columns:
+        if column != common_id_column:
+            value_a = row[column + '_A']
+            value_b = row[column + '_B']
+            
+            if pd.isna(value_a) and pd.isna(value_b):
+                next
+            elif value_a == value_b:
+                next
+            else:
+                print(f"ID: {id_value}, Column: {column}, Result: field is different {value_a} vs {value_b}")
+
+            
+
+# Note: This code assumes the Excel files have the same columns structure.
